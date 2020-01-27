@@ -2,7 +2,7 @@ Site d'entrainement à domicile et en salle
 
 RECUPERATION :
 
-1 - git clone https://github.com/Benji-devw/findacoach.git
+1 - git clone https://github.com/Benji-devw/FindACoach_Phase_1.git
 
 2 - cd findacoach
 
