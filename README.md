@@ -21,3 +21,5 @@ RECUPERATION :
 5 - php bin/console make:migration
 
 6 - php bin/console doctrine:migrations:migrate
+
+7 - symfony serve
