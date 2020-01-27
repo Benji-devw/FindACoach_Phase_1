@@ -4,7 +4,7 @@ RECUPERATION :
 
 1 - git clone https://github.com/Benji-devw/FindACoach_Phase_1.git
 
-2 - cd findacoach
+2 - cd FindACoach_Phase_1
 
 3 - git checkout dev
 
