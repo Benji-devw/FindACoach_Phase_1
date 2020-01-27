@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Confirmation email{% endblock %}
+
+{% block body %}
+    {% block stylesheets %}
+        <style>
+            .img-top {
+                background: url(../validation-large.jpg) no-repeat center center fixed;
+                background-size: cover;
+                box-shadow: 0px 0px 25px 30px rgba(0, 0, 0, .5);
+            }
+        </style>
+    {% endblock %}
+
+    <div class="row text-center mb-5 text-center img-top" style="box-shadow: 0px 0px 25px 30px rgba(0, 0, 0, .7);">
+        <div class="col p-5 text-center" style="min-height: 14rem;">
+            <h2 class="name-site" style="">FindACoach</h2>
+        </div>
+    </div>
+
+    <div class="container ">
+
+        <div class="row justify-content-center">
+            <h1 class="display-4 m-3" style="font-size: 2.5em">Confirmation mail</h1>
+            <div class="col-10 border border-primary rounded p-5 text-center">
+                Nous vous avons envoyé un email de confirmation pour nous rejoindre dans cette grande aventure.
+                <br>
+                <a class="btn btn-sm btn-outline-primary m-3" href="{{ path('app_login')}}">Se connecter</a>
+
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

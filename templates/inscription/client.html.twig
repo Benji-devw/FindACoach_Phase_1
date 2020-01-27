@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription Client{% endblock %}
+
+{% block body %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/styleFrontAll.css') }}">
+        <style>
+            .img-top {
+                background: url(../slides/grp-coach.jpg) no-repeat center center fixed;
+                background-size: cover;
+                box-shadow: 0px 0px 15px 15px rgba(0, 0, 0, .5);
+            }
+
+        </style>
+    {% endblock %}
+
+
+    <div class="row text-center mb-5 text-center img-top">
+        <div class="col p-5 text-center" style="min-height: 14rem;">
+            <h2 class="name-site" style="">FindACoach</h2>
+        </div>
+    </div>
+
+<div class="container">
+
+    <div class="row">
+    <div class="col text-center">
+        <h1  class="display-4 m-3" style="font-size: 2.5em">Devenir Client</h1>
+    </div>
+    </div>
+
+    <div class="row justify-content-center">
+    <div class="col-6">
+        {{ form_start(formInscription) }}
+        {{ form_row(formInscription.pseudo) }}
+        {{form_row(formInscription.email, {'label':'Adresse email ', attr : { 'placeholder': 'adresse email'}})}}
+        {{form_row(formInscription.password, {attr : { 'placeholder': 'mot de passe'}})}}
+        {{form_row(formInscription.confirm_password, {attr : { 'placeholder': 'confirmer mot de passe'}})}}
+
+        <button type="submit" class='btn btn-sm btn-outline-primary m-3'> Confirmer </button>
+        {{ form_end(formInscription) }}
+    </div>
+    </div>
+
+</div>
+{% endblock %}

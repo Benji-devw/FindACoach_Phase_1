@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes rendez-vous{% endblock %}
+
+{% block body %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/styleFrontAll.css') }}">
+        <style>
+        </style>
+    {% endblock %}
+
+
+
+    <div class="row text-center">
+        <div class="col p-5 text-center" style="min-height: 14rem;">
+            <h2 class="name-site" style="">FindACoach</h2>
+            <h1 class="display-4" style="font-size: 2.5em;">Mes Rendez-vous</h1>
+            <img src="{{ asset('picto_15_partenaires2.png') }}" alt="" style="height: 200px;">
+        </div>
+    </div>
+
+
+<div class="container">
+
+    <div class="row justify-content-center">
+        <div class="col-8 rounded border border-primary p-5 text-center">
+            {% for rdv in rdvclients %}
+                {% if rdv.total %}
+
+                    <div class="row">
+                        <div class="col">
+                            Coach : <span class="text-primary">{{ rdv.coach.nom }} {{ rdv.coach.prenom }}</span><br>
+                            Lieu : <span class="text-primary">{{ rdv.lieu}}</span><br>
+                            Le : <span class="text-danger">{{ rdv.jour | date("d/m/Y") }}</span><br>
+                            Horaire : <span class="text-danger">{{ rdv.heure | date("H:i") }}</span><br>
+                            Temps :  <span class="text-danger">{{ rdv.duree }} heure(s)</span><br>
+                            Montant <span class="text-primary">{{ rdv.total }}</span> €.
+                        </div>
+                    </div>
+                    <div class="bg-primary m-3" style="height: 1px"></div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+
+</div>
+
+
+
+{% endblock %}

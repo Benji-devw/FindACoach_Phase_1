@@ -1,0 +1,196 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% block stylesheets %}
+        <style>
+            .top-fond {
+                min-height: 60vh;
+                width: 100%;
+
+                background: url(../slides/athlete-courir-chaussures-de-course.jpg) no-repeat center center fixed;
+                background-size: cover;
+                box-shadow: 10px 10px 35px 10px rgba(0, 0, 0, 1),
+                    2px 2px 10px 10px rgba(0, 0, 0, .8) inset;
+            }
+            .top-content {
+                height: 60vh;
+            }
+            .img-coach {
+                transition-duration: 1s;
+                height: 180px;
+                width: 180px;
+                box-shadow: 10px 10px 35px 10px rgba(0, 0, 0, 1);
+            }
+            .img-coach:hover {
+                transition-duration: .5s;
+                transform: scale(1.1, 1.1);
+            }
+        </style>
+    {% endblock %}
+
+<div class="top-fond">
+    <div class="container">
+        {{form_start(form, {'action': path('search'), 'method': 'POST','attr':{'id':'search'}}) }}
+
+                <div class="row align-items-center justify-content-center top-content text-center">
+
+                    <h2 class="name-site bounceInLeft" style="position: absolute; margin-top: -100px;">FindACoach</h2>
+
+                    <div class="col-4">
+
+                        {{form_row(form.sport) }}
+
+                    </div>
+                    <div class="col-4">
+
+                        {{form_row(form.ville)}}
+                    </div>
+
+                    <button id="buttonLaunch" class="btn btn-primary" style="position: absolute; margin-top:70px;  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.7);">Rechercher</button>
+
+                </div>
+
+        {{form_end(form)}}
+    </div>
+</div>
+
+
+
+<div class="container p-5" style="min-height: 800px">
+
+    <div class="row" id="ongletCoach">
+        <div class="col text-center">
+            <h2 class="display-4">Nos Coachs</h2>
+            <p>Ainsi, il était parfois difficile de trouver un entraîneur dans la bonne zone géographique, libre au horaires adéquats et pratiquant des tarifs non prohibitifs. </p>
+        </div>
+    </div>
+
+    {# CARD ALL COACH#}
+    <div id="coachAjax" class="row">
+
+        {% for coach in coachs %}
+            <div class="col-md-4 text-center mt-5">
+                <div class="row">
+                    <div class="col">
+                        <a href="{{ path('fichefullcoach', {id: coach.id}) }}"> <img class="rounded-circle img-coach" src="{{ vich_uploader_asset(coach, 'imageFile') }}" alt=""></a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-white mt-4">
+                        <h5 class="display-4 text-primary" style="font-size: 1.3em;font-weight: bold;">{{coach.prenom|capitalize}}</h5>
+                        {{coach.domaine|capitalize}} /
+                        {{coach.ville|capitalize}}<br>
+                        {{coach.prix}}€/h<br>
+                        {{ coach.descriptionCoach|striptags|slice(0, 100)|capitalize }} ...
+                        <br>
+                        <a href="{{ path('fichefullcoach', {id: coach.id}) }}" class="text-primary">Voir fiche</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+
+
+
+</div>{# CONTAINER #}
+
+
+<div class="container-fluid">
+
+    {# IMAGE BOTTOM #}
+    <div class="row align-items-center" style="">
+        <div class="col-4 text-center">
+            <img src="{{ asset('logos/logo_calendar.png') }}" alt="" style="height: 70px">
+            <p>Inscrivez vous et réservé dès maintenant</p>
+        </div>
+        <div class="col-4 text-center">
+            <img src="{{ asset('logos/logo_gratuit.png') }}" alt="" style="height: 70px">
+            <p>Première Seance gratuite. </p>
+        </div>
+        <div class="col-4 text-center">
+            <img src="{{ asset('logos/logo_rembourse.png') }}" alt="" style="height: 70px">
+            <p>Réservez une premiere seance et donné votre avi</p>
+        </div>
+    </div>
+
+    {# PAGINATION #}
+    <div class="navigation d-flex justify-content-center">
+        {{ knp_pagination_render(coachs) }}
+    </div>
+
+</div>{#container-fluid#}
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+
+        $(function () {
+            // window.onload = function() {
+            //     let buttonLaunch = document.getElementById('buttonLaunch');
+            //     buttonLaunch.click();
+            // };
+
+            // REQUEST AJAX COACH 
+            $('#search').submit(function (event) {
+                event.preventDefault();
+                document.getElementById('coachAjax').innerHTML = '';
+                // Envoi de la requête XHR
+                $.post($(this).attr('action'), $(this).serializeArray(), function (data) {
+                    // console.log(data);
+                    const coach = JSON.parse(data);
+                    console.log(data)
+
+                    if (coach.length == 0) {
+                        let messageVide = document.createElement('div')
+                        messageVide.className = 'text-center mt-5 text-';
+                        messageVide.innerHTML += 'Aucun résultat' ;
+                        document.getElementById('coachAjax').appendChild(messageVide)
+                    } else {
+                        for(i = 0; i < coach.length; i++){
+
+                            let img = coach[i].image;
+                            let coachId = coach[i].id;
+                            var customCard = document.createElement('div');
+                            customCard.className = 'contentCoach col-md-4 text-center mt-5';
+                            customCard.innerHTML += "<a href=\"coach/fichecomplet/" + coach[i].id + "\"><img class=\"rounded-circle img-coach mb-3\" style='height: 170px; ' src=\"images/properties/" + img + "\"></a> " + ' <br>';
+                            customCard.innerHTML += "<strong class='text-primary' style='font-size: 1.3em;font-weight: bold; '>" + capitalizeFirstLetter(coach[i].prenom) + "</strong><br>";
+
+                            customCard.innerHTML += coach[i].domaine + ' / ';
+                            customCard.innerHTML += coach[i].ville.toUpperCase() + '<br>';
+                            customCard.innerHTML += "<strong style='font-weight: bold'>" + coach[i].prix + "€/h </strong><br>";
+                            customCard.innerHTML += coach[i].description.substr(1,100) + '... <br>';
+                            customCard.innerHTML += "<a href=\"coach/fichecomplet/" + coach[i].id + "\">Voir Fiche</a>";
+
+                            document.getElementById('coachAjax').appendChild(customCard)
+                        }
+                    }
+                });
+            });
+        });
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        // Scroll lisse
+        $('.js-scrollTo').click(function() {
+            let page = $(this).attr('href')
+            let speed = 750;
+            $('html, body').animate({scrollTop: $(page).offset().top}, speed);
+            return false;
+        })
+
+        // $('.js-scrollTo').on('click', function() {
+        //         $('html', 'body').animate({
+        //             scrollTop: $("#ongletCoach").offset().top
+        //         }, 2000)
+        //         console.log("ok");
+        //
+        // })
+
+    </script>
+{% endblock %}
+
+
+

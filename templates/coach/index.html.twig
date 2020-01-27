@@ -1,0 +1,116 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Fais ta fiche PD de Coach{% endblock %}
+
+{% block body %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/styleFrontAll.css') }}">
+        <style>
+            .img-top {
+                background: url(../../ail_work_working.jpg) no-repeat center center fixed;
+                background-size: cover;
+                box-shadow: 0px 0px 15px 15px rgba(0, 0, 0, .5);
+            }
+        </style>
+    {% endblock %}
+
+    {##### TOP #####}
+    <div class="row text-center mb-5 text-center img-top">
+        <div class="col p-5 text-center" style="min-height: 14rem;">
+            <h2 class="name-site" style="">FindACoach</h2>
+        </div>
+    </div>
+
+
+<div class="container">
+
+    {% if is_granted("ROLE_COACH") and error == false %}
+
+        <div class="row">
+            <div class="col text-center">
+                <h1  class="display-4 m-3" style="font-size: 2.5em">Ma Fiche</h1>
+            </div>
+        </div>
+
+    <div class="row justify-content-center">
+        <div class="col-8">
+            {{form_start(ficheCoach)}}
+
+            <div class="row">
+                <div class="col-6">
+                    {{ form_row(ficheCoach.nom) }}
+                </div>
+                <div class="col-6">
+                    {{ form_row(ficheCoach.prenom) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    {{ form_row(ficheCoach.adresse) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_row(ficheCoach.codePostal) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(ficheCoach.ville) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_row(ficheCoach.telephone) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    {{ form_row(ficheCoach.age) }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_row(ficheCoach.imageFile) }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_row(ficheCoach.diplomeFile) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    {{ form_row(ficheCoach.descriptionCoach) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+
+                    {{ form_row(ficheCoach.descriptionSeance) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    {{ form_row(ficheCoach.prix) }}
+                </div>
+            </div>
+
+            {{form_rest(ficheCoach)}}
+
+            <button class='btn btn-sm btn-outline-primary m-3' type="submit">Enregistrer</button>
+            {{form_end(ficheCoach)}}
+
+        </div>
+    </div>
+
+
+
+    {% else %}
+            <h2>Vous n'avez pas accès à cette partie</h2>
+            <a href="{{path('home')}}">Lien vers menu principal</a>
+    {% endif %}
+
+</div>{#CONTAINER#}
+
+{% endblock %}
